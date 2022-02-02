@@ -21,7 +21,7 @@ class httpServer {
 
         app.get('/', (req, res) => {
             res.send({ data: 'Sucess' })
-            const data = JSON.parse(req.query.a);
+            const data = req.query.a;
 
             // Close the server after we get the data as the http server is no longer needed
             server.close((err) => {

